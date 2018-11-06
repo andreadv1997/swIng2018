@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FlashMobClient</string>
+    <string name="Reg_Button_Label">Registrati</string>
+    <string name="Login_Button_Label">Accedi</string>
+    <string name="user">Username</string>
+    <string name="pass">Password</string>
+    <string name="title_activity_flash_mob_list">FlashMobActivityList</string>
+</resources>

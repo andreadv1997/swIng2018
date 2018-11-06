@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <!--In this file we specify the list of storage area and path in XML, using child elements of the <paths> element.
+    These paths are used by the provider set in the manifest
+    The <paths> element must contain one or more of the following child elements: "<files-path name="name" path="path" /> Represents files in the files/ subdirectory of your app's internal storage area. This subdirectory is the same as the value returned by Context.getFilesDir()."
+    For example, the following paths element tells FileProvider that you intend to request content URIs for the images/ subdirectory of your private file area.-->
+
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-path
+        name="my_images"
+        path="."/>
+</paths>

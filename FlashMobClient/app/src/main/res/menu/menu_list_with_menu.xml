@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="andreadelvecchio.pervasivestudent.gmail.it.listwithmenu.ListWithMenuActivity">
+    <item
+        android:id="@+id/logout_item"
+        android:orderInCategory="100"
+        android:title="LogOut"
+        app:showAsAction="never" />
+
+
+</menu>
