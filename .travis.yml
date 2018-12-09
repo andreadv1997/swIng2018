@@ -4,6 +4,8 @@ env:
 - DIR=FlashMobClient
 - DIR=server
 
-script: cd $DIR
-- if $DIR==FlashMobClient gradle build; fi
-- if $DIR==server mvn install; fi
+script:
+ - if $DIR==FlashMobClient;
+      then cd $DIR && gradle build; 
+   else cd $DIR %% mvn install;
+   fi
