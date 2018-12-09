@@ -1,0 +1,9 @@
+language: java
+
+env:
+- DIR=FlashMobClient
+- DIR=server
+
+script: cd $DIR
+- if $DIR==FlashMobClient gradle build; fi
+- if $DIR==server mvn install; fi
