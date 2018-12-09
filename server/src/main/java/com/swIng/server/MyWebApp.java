@@ -45,7 +45,7 @@ import com.swIng.server.webResources.*;
 
 
 
-
+//add a comment to trigger build on travis
 public class MyWebApp extends Application{
 	public final static String ROLE_USER="user";
 	public final static String ROLE_ADMIN="admin";
