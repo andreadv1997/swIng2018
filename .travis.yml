@@ -14,5 +14,6 @@ notifications:
   email:
     - andreadv1997@gmail.com
     - lauranardi26@gmail.com
+    - mimmo.carapella@gmail.com
   on_success: change
   on_failure: always
