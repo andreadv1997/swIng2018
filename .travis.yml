@@ -9,3 +9,10 @@ script:
       then cd $DIR && gradle build; 
    else cd $DIR %% mvn install;
    fi
+
+notifications:
+  email:
+    - andreadv1997@gmail.com
+    - lauranardi26@gmail.com
+  on_success: change
+  on_failure: always
