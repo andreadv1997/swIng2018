@@ -98,7 +98,7 @@ public class FlashMobPictureStorageResource extends ServerResource{
 		}
 		//present flash Mob: posso postare le foto;
 		//utente registrato per l'evento presente
-        
+        	System.out.println(entity);
             entity.write(new FileOutputStream(new File(System.getProperty("user.dir")+"/flashmobs/"+getAttribute("flashMobTitle")+"/"+getAttribute("fname"))));
         } catch (Exception e) {
             throw new ResourceException(e);
