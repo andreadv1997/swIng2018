@@ -3,6 +3,7 @@ package andreadelvecchio.pervasivestudent.gmail.it.flashmobclient;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -28,7 +29,9 @@ import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -36,13 +39,17 @@ public class CameraActivity extends AppCompatActivity {
 
     private String baseURI = "http://10.0.2.2:8182/content/user/flashmob/";
 
+
     private static final int ACTIVITY_START_CAMERA_APP = 0;
+    private static final int ACTIVITY_START_GALLERY_APP = 1;
     private ImageView photoTakenImageView;
     private Button load;
     private String mImageFileLocation = "";
     private String fmName;
     public final static String PERMISSION_WRITE_STORAGE ="android.permission.WRITE_EXTERNAL_STORAGE";
-    public final static int MY_PERMISSIONS_REQUEST=101;
+    public final static String PERMISSION_READ_STORAGE ="android.permission.READ_EXTERNAL_STORAGE";
+    public final static int MY_PERMISSIONS_REQUEST_CAMERA=101;
+    public final static int MY_PERMISSIONS_REQUEST_GALLERY=102;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -55,42 +62,89 @@ public class CameraActivity extends AppCompatActivity {
 
     }
 
-    private boolean checkPermission() {
-        int result = ContextCompat.checkSelfPermission(this,
-                PERMISSION_WRITE_STORAGE);
+    private boolean checkPermissionCamera() {
+
+        int result = ContextCompat.checkSelfPermission(this,PERMISSION_WRITE_STORAGE);
         return result == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void requestPermisison(){
+    private void requestPermisisonCamera(){
 
         ActivityCompat.requestPermissions(this,
-                new String[]{PERMISSION_WRITE_STORAGE}, MY_PERMISSIONS_REQUEST);
+                new String[]{PERMISSION_WRITE_STORAGE}, MY_PERMISSIONS_REQUEST_CAMERA);
 
     }
+
+    private void requestPermisisonGallery(){
+
+        ActivityCompat.requestPermissions(this,
+                new String[]{PERMISSION_READ_STORAGE}, MY_PERMISSIONS_REQUEST_GALLERY);
+
+    }
+
+    private boolean checkPermissionGallery() {
+
+        int result = ContextCompat.checkSelfPermission(this,PERMISSION_READ_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+
 
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
 
-        if (requestCode == MY_PERMISSIONS_REQUEST) {
+        if (requestCode == MY_PERMISSIONS_REQUEST_CAMERA) {
             // If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 takePhotAfterPermission();
             } else {
-                Toast.makeText(getApplicationContext(), "No Permnissions", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "No Permnissions for Camera", Toast.LENGTH_LONG).show();
+            }
+            return;
+        }
+        if (requestCode == MY_PERMISSIONS_REQUEST_GALLERY) {
+            // If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                loadFromGallery();
+            } else {
+                Toast.makeText(getApplicationContext(), "No Permnissions for Gallery", Toast.LENGTH_LONG).show();
             }
             return;
         }
     }
 
     public void takePhoto(View v){
-        if (checkPermission()){
+        if (checkPermissionCamera()){
             takePhotAfterPermission();
         } else {
-            requestPermisison();
+            requestPermisisonCamera();
         }
+    }
+
+    public void takePhotoGallery(View v){
+        if (checkPermissionGallery()){
+            loadFromGallery();
+        } else {
+            requestPermisisonGallery();
+        }
+    }
+
+    public void loadFromGallery(){
+        Intent galleryApplicationIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        String pictureDirectoryPath = pictureDirectory.getPath();
+
+        Uri data = Uri.parse(pictureDirectoryPath);
+
+        galleryApplicationIntent.setDataAndType(data, "image/*");
+
+        startActivityForResult(galleryApplicationIntent, ACTIVITY_START_GALLERY_APP);
     }
 
     public void takePhotAfterPermission() {
@@ -125,6 +179,38 @@ public class CameraActivity extends AppCompatActivity {
             photoTakenImageView.setImageBitmap(PhotoTakenBitmap);
             load.setEnabled(true);
         }
+        else if (requestCode == ACTIVITY_START_GALLERY_APP && resultCode == RESULT_OK){
+            Uri imageUri = data.getData();
+
+
+
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContentResolver().query(imageUri, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            mImageFileLocation = cursor.getString(columnIndex);
+            cursor.close();
+
+
+            //mImageFileLocation = imageUri.getPath();
+            Log.println(Log.INFO,"FILE GALLERY", mImageFileLocation);
+            InputStream inputStream;
+
+            try {
+                inputStream = getContentResolver().openInputStream(imageUri);
+
+                Bitmap image  = BitmapFactory.decodeStream(inputStream);
+                photoTakenImageView.setImageBitmap(image);
+                load.setEnabled(true);
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Unable to open image", Toast.LENGTH_LONG).show();
+            }
+
+        }
     }
 
     /**
@@ -152,6 +238,9 @@ public class CameraActivity extends AppCompatActivity {
             String user = pref.getString("username",null);
             String pass = pref.getString("password", null);
             String filename= (new File(mImageFileLocation)).getName();
+
+            //if(!filename.contains(".jpg")) filename= "IMAGE_"+filename+".jpg";
+
             cr = new ClientResource(baseURI+fmName+"/"+filename);
             String response=null;
             ChallengeScheme scheme = ChallengeScheme.HTTP_BASIC;
@@ -161,6 +250,10 @@ public class CameraActivity extends AppCompatActivity {
 
             FileRepresentation payload = new FileRepresentation(new File(mImageFileLocation),
                     MediaType.AUDIO_REAL);
+
+            Log.e("FILE_GALLERY",payload.toString());
+
+
 
             try {
                 response = cr.put(payload).getText();

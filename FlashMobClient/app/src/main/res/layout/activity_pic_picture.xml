@@ -21,6 +21,14 @@
             android:text="Upload Photo" />
 
         <Button
+            android:id="@+id/loadGallery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="takePhotoGallery"
+            android:text="Load From Gallery" />
+
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="takePhoto"
