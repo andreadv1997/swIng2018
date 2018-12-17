@@ -249,7 +249,7 @@ public class CameraActivity extends AppCompatActivity {
             cr.setChallengeResponse(authentication);
 
             FileRepresentation payload = new FileRepresentation(new File(mImageFileLocation),
-                    MediaType.AUDIO_REAL);
+                    MediaType.IMAGE_JPEG);
 
             Log.e("FILE_GALLERY",payload.toString());
 
