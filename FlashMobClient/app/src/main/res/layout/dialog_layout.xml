@@ -10,21 +10,27 @@
         android:id="@+id/register"
         android:layout_width="112dp"
         android:layout_height="46dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="30dp"
-        android:text="Registrati"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/Reg_Button_Label"
         app:layout_constraintBottom_toTopOf="@+id/post"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="136dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="80dp"
-        android:text="Scatta Foto"
+        android:text="@string/takePhoto"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="133dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

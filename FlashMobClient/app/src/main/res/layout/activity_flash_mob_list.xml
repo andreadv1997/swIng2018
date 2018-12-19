@@ -19,14 +19,14 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <ImageButton
+                android:contentDescription="@string/refresh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/refresh"
                 android:src="@drawable/refresh"
                 android:onClick="refresh"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:adjustViewBounds="true"
                 android:cropToPadding="false"
                 android:background="?attr/colorPrimary"

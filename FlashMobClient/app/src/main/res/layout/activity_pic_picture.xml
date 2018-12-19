@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="8dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical">
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <Button
             android:id="@+id/butLoad"
@@ -18,7 +13,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="uploadPhoto"
-            android:text="Upload Photo" />
+            android:text="@string/uploadPhoto" />
 
         <Button
             android:id="@+id/loadGallery"
@@ -26,19 +21,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="takePhotoGallery"
-            android:text="Load From Gallery" />
+            android:text="@string/loadFromGallery" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="takePhoto"
-            android:text="Take Photo" />
+            android:text="@string/takePhoto" />
 
         <ImageView
+            android:contentDescription="@string/uploadPhoto"
             android:id="@+id/Prewiev"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp" />
-    </LinearLayout>
 </LinearLayout>

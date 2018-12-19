@@ -5,4 +5,10 @@
     <string name="user">Username</string>
     <string name="pass">Password</string>
     <string name="title_activity_flash_mob_list">FlashMobActivityList</string>
+    <string name="uploadPhoto">Upload Photo</string>
+    <string name="loadFromGallery">Load From Gallery</string>
+    <string name="takePhoto">Scatta Foto</string>
+    <string name="image">Image</string>
+    <string name="logOut">LogOut</string>
+    <string name="refresh">Refresh Button</string>
 </resources>
