@@ -48,19 +48,24 @@ public class FlashMobAdapter extends BaseAdapter {
     // Return an ImageView for each item referenced by the Adapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        View v;
+        if(convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = inflater.inflate(R.layout.adapter_layout, null);
 
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.adapter_layout, null);
+            TextView title = (TextView) v.findViewById(R.id.title);
+            TextView descriprion = (TextView) v.findViewById(R.id.description);
+            TextView startDate = (TextView) v.findViewById(R.id.startDate);
+            TextView endDate = (TextView) v.findViewById(R.id.endDate);
 
-        TextView title = (TextView) v.findViewById(R.id.title);
-        TextView descriprion = (TextView) v.findViewById(R.id.description);
-        TextView startDate = (TextView) v.findViewById(R.id.startDate);
-        TextView endDate = (TextView) v.findViewById(R.id.endDate);
+            title.setText(list[position].getName());
+            descriprion.setText(list[position].getDescription());
+            startDate.setText(FlashMob.DATEFORMAT.format(list[position].getStart()));
+            endDate.setText(FlashMob.DATEFORMAT.format(list[position].getEnd()));
 
-        title.setText(list[position].getName());
-        descriprion.setText(list[position].getDescription());
-        startDate.setText(FlashMob.DATEFORMAT.format(list[position].getStart()));
-        endDate.setText(FlashMob.DATEFORMAT.format(list[position].getEnd()));
+
+        }
+        else v = convertView ;
 
         return v;
     }
