@@ -72,7 +72,7 @@ public class Login_Reg_Activity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             ClientResource cr;
 
-            cr = new ClientResource("http://10.0.2.2:8182/content/user/registration");
+            cr = new ClientResource("http://192.168.43.60:8182/content/user/registration");
             String response=null;
             MyUser user = new MyUser(username.getText().toString(),password.getText().toString());
             String payload= new Gson().toJson(user,User.class);
@@ -118,7 +118,7 @@ public class Login_Reg_Activity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             ClientResource cr;
 
-            cr = new ClientResource("http://10.0.2.2:8182/content/user/authentication");
+            cr = new ClientResource("http://192.168.43.60:8182/content/user/authentication");
             String response=null;
             ChallengeScheme scheme = ChallengeScheme.HTTP_BASIC;
             ChallengeResponse authentication = new ChallengeResponse(scheme,

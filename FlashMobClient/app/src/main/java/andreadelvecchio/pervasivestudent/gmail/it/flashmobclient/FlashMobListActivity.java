@@ -115,7 +115,7 @@ public class FlashMobListActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             ClientResource cr;
 
-            cr = new ClientResource("http://10.0.2.2:8182/content/user/flashmob/list");
+            cr = new ClientResource("http://192.168.43.60:8182/content/user/flashmob/list");
             String response = null;
 
 
@@ -183,7 +183,7 @@ public class FlashMobListActivity extends AppCompatActivity {
             SharedPreferences pref = getSharedPreferences("Login_Reg_Activity", MODE_PRIVATE);
             String user = pref.getString("username",null);
             String pass = pref.getString("password", null);
-            cr = new ClientResource("http://10.0.2.2:8182/content/user/flashmob/"+params[0]+"/authorization");
+            cr = new ClientResource("http://192.168.43.60:8182/content/user/flashmob/"+params[0]+"/authorization");
 
             String response = null;
             ChallengeScheme scheme = ChallengeScheme.HTTP_BASIC;
@@ -272,7 +272,7 @@ public class FlashMobListActivity extends AppCompatActivity {
             SharedPreferences pref = getSharedPreferences("Login_Reg_Activity", MODE_PRIVATE);
             String user = pref.getString("username",null);
             String pass = pref.getString("password", null);
-            cr = new ClientResource("http://10.0.2.2:8182/content/user/flashmob/"+params[0]);
+            cr = new ClientResource("http://192.168.43.60:8182/content/user/flashmob/"+params[0]);
             String response = null;
             ChallengeScheme scheme = ChallengeScheme.HTTP_BASIC;
             ChallengeResponse authentication = new ChallengeResponse(scheme,

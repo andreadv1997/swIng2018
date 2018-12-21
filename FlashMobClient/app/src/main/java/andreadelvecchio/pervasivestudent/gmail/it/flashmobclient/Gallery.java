@@ -127,7 +127,7 @@ public class Gallery extends ListActivity {
         protected String doInBackground(String... params) {
             ClientResource cr;
 
-            cr = new ClientResource("http://10.0.2.2:8182/content/user/flashmob/"+flashMobName);
+            cr = new ClientResource("http://192.168.43.60:8182/content/user/flashmob/"+flashMobName);
             String response=null;
 
 
@@ -170,8 +170,8 @@ public class Gallery extends ListActivity {
         protected String doInBackground(String... params) {
             ClientResource cr;
             fileName=params[0];
-            cr = new ClientResource("http://10.0.2.2:8182/content/user/flashmob/"+flashMobName+"/"+params[0]);
-            Log.e("Getting Picture","http://10.0.2.2:8182/content/user/flashmob/"+flashMobName+"/"+params[0]);
+            cr = new ClientResource("http://192.168.43.60:8182/content/user/flashmob/"+flashMobName+"/"+params[0]);
+            Log.e("Getting Picture","http://192.168.43.60:8182/content/user/flashmob/"+flashMobName+"/"+params[0]);
             response=null;
             result=null;
             File storageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/"+ flashMobName);
