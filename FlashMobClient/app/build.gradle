@@ -1,5 +1,14 @@
 apply plugin: 'com.android.application'
-apply plugin: 'jacoco'
+//apply plugin: 'jacoco'
+
+//jacoco {
+//    toolVersion = '0.8.0'
+//}
+
+tasks.withType(Test) {
+    enabled true
+    //jacoco.includeNoLocationClasses = true
+}
 
 android {
     compileSdkVersion 27
@@ -9,30 +18,55 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
 
-        debug {
-            testCoverageEnabled = true
-        }
+//    testOptions {
+//        execution 'ANDROID_TEST_ORCHESTRATOR'
+//        animationsDisabled true
+//
+//        unitTests {
+//            includeAndroidResources = true
+//        }
+//    }
 
+
+
+
+    lintOptions {
+        abortOnError false
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:design:27.1.1'
-    testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support.test:rules:1.0.2'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:design:27.1.0'
+    testImplementation 'junit:junit:4.12'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+
+    //androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2-alpha1'
+    androidTestUtil 'com.android.support.test:orchestrator:1.0.2-alpha1'
+
+
+
     compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
     compile group: 'org.restlet.jee', name: 'org.restlet', version: '2.3.2'
     compile group: 'org.restlet.jee', name: 'org.restlet.ext.nio', version: '2.3.2'
@@ -44,40 +78,21 @@ dependencies {
 
 
 
-task print{
-    dependsOn 'connectedAndroidTest'
-    println "test done"
 
-}
-
-jacoco {
-    toolVersion = "0.7.6.201602180812"
-    reportsDir = file("${buildDir}/reports/jacoco/")
-}
-
-task jacocoTestReport (type: JacocoReport){
-    dependsOn 'testDebugUnitTest'
-    println "runningJacocoTestReport"
-    group = "Reporting"
-
-    description = "Generate Jacoco coverage reports after running tests."
-    reports {
-        xml {
-            enabled true
-            destination file("${buildDir}/reports/jacocoCoverage/jacoco.xml")
-        }
-        csv.enabled false
-        html {
-            enabled true
-            destination file("${buildDir}/reports/jacocoCoverage/jacoco.html")
-            println "wrote html file"
-        }
-    }
-
-
-}
-
-
-
-
-
+//task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport', 'test']) {
+//
+//    reports {
+//        xml.enabled = true
+//        html.enabled = true
+//    }
+//
+//    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+//    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
+//    def mainSrc = "$project.projectDir/src/main/java"
+//
+//    sourceDirectories = files([mainSrc])
+//    classDirectories = files([debugTree])
+//    executionData = fileTree(dir: project.buildDir, includes: [
+//            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+//    ])
+//}

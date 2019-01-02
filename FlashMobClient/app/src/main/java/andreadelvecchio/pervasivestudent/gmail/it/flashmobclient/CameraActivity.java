@@ -37,7 +37,7 @@ import java.util.Date;
 
 public class CameraActivity extends AppCompatActivity {
 
-    private String baseURI = "http://192.168.43.60:8182/content/user/flashmob/";
+    private String baseURI = "http://192.168.2.117:8182/content/user/flashmob/";
 
 
     private static final int ACTIVITY_START_CAMERA_APP = 0;

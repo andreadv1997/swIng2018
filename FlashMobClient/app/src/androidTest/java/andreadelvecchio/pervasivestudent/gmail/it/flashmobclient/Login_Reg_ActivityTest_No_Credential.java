@@ -22,29 +22,41 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-
 import static android.content.Context.MODE_PRIVATE;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class Login_Reg_ActivityTest {
+public class Login_Reg_ActivityTest_No_Credential {
 
     @Rule
     public ActivityTestRule<Login_Reg_Activity> mActivityTestRule = new ActivityTestRule<>(Login_Reg_Activity.class);
 
+    @AfterClass
+    @BeforeClass
+    public static void removeSharedPref(){
+        Context appContext = InstrumentationRegistry.getTargetContext();
+
+        SharedPreferences preferences = appContext.getSharedPreferences("Login_Reg_Activity", MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+
     @Test
-    public void login_Reg_ActivityTest() {
+    public void login_Reg_ActivityTest_No_Credential() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.userText),
                         childAtPosition(
@@ -63,7 +75,7 @@ public class Login_Reg_ActivityTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("a"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("b"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText3 = onView(
                 allOf(withId(R.id.passText),
@@ -73,7 +85,7 @@ public class Login_Reg_ActivityTest {
                                         0),
                                 3),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("a"), closeSoftKeyboard());
+        appCompatEditText3.perform(replaceText("b"), closeSoftKeyboard());
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.button4), withText("Accedi"),
@@ -84,41 +96,9 @@ public class Login_Reg_ActivityTest {
                                 5),
                         isDisplayed()));
         appCompatButton.perform(click());
+        onView(withText("Utente non autenticato: controlla le tue credenziali")).inRoot(withDecorView(not(mActivityTestRule.getActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
 
-        ViewInteraction linearLayout = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                withId(android.R.id.content),
-                                0),
-                        1),
-                        isDisplayed()));
-        linearLayout.check(matches(isDisplayed()));
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.title), withText("FlashMob1"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.list),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textView.check(matches(withText("FlashMob1")));
-        //onView(withText("Login Status: OK")).inRoot(withDecorView(not(mActivityTestRule.getActivity().getWindow().getDecorView()))) .check(matches(isDisplayed()));
     }
-
-    @AfterClass
-    @BeforeClass
-    public static void removeSharedPref(){
-        Context appContext = InstrumentationRegistry.getTargetContext();
-
-        SharedPreferences preferences = appContext.getSharedPreferences("Login_Reg_Activity", MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.commit();
-    }
-
-
 
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {

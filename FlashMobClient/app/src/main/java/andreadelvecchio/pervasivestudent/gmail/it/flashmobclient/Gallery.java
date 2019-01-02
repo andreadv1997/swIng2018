@@ -44,6 +44,8 @@ import java.util.ListIterator;
 
 public class Gallery extends ListActivity {
 
+        private String baseUri = "http://192.168.2.117:8182/content/user";
+
         String[] picture_list;
         ArrayList<File> images = new ArrayList<File>() ;
         String flashMobName;
@@ -127,7 +129,7 @@ public class Gallery extends ListActivity {
         protected String doInBackground(String... params) {
             ClientResource cr;
 
-            cr = new ClientResource("http://192.168.43.60:8182/content/user/flashmob/"+flashMobName);
+            cr = new ClientResource(baseUri+"/flashmob/"+flashMobName);
             String response=null;
 
 
@@ -170,8 +172,8 @@ public class Gallery extends ListActivity {
         protected String doInBackground(String... params) {
             ClientResource cr;
             fileName=params[0];
-            cr = new ClientResource("http://192.168.43.60:8182/content/user/flashmob/"+flashMobName+"/"+params[0]);
-            Log.e("Getting Picture","http://192.168.43.60:8182/content/user/flashmob/"+flashMobName+"/"+params[0]);
+            cr = new ClientResource(baseUri+"/flashmob/"+flashMobName+"/"+params[0]);
+            Log.e("Getting Picture",baseUri+"/flashmob/"+flashMobName+"/"+params[0]);
             response=null;
             result=null;
             File storageDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES + "/"+ flashMobName);
