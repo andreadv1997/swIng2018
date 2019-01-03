@@ -5,6 +5,12 @@ env:
 - DIR=FlashMobClient
 - DIR=server
 
+variables:
+  ANDROID_COMPILE_SDK: "27"
+  ANDROID_BUILD_TOOLS: "26.0.2"
+  ANDROID_SDK_TOOLS: "27"
+
+
 android:
   components:
     # Uncomment the lines below if you want to
@@ -33,10 +39,11 @@ android:
 
 before_script:
   - android list targets
-  - echo no | android create avd --force -n test -t android-27
-  - emulator -avd test -no-audio -no-window &
+  - echo no | android create avd --force -n test -t android-27 --abi google_apis/x86
+  - android-sdk-linux/tools/emulator64-x86 -avd test -no-window -no-audio &
+  #- emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+  - adb shell input keyevent 82
 
 script:
  - if $DIR==FlashMobClient;
