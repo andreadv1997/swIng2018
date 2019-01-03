@@ -7,11 +7,9 @@ env:
 
 android:
   components:
-    - tools
     - platform-tools
-    - tools #run again to install the most recent versions of tools
+    - tools
     - build-tools-28.0.3
-    - android-28
     - android-28
     - extra-android-support
     - extra-google-m2repository
@@ -20,7 +18,7 @@ android:
 
 before_script:
   - android list targets
-  - echo no | android create avd --force -n test -t android-28 --abi armeabi-v7a --tag google_apis
+  - echo no | android create avd --force -n test -t android-28 --abi armeabi-v7a
   - emulator -avd test -no-window &
 # - mkdir -p build/reports
 # - ./gradlew dependencyCheckAnalyze
