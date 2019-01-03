@@ -9,8 +9,8 @@ android:
   components:
     # Uncomment the lines below if you want to
     # use the latest revision of Android SDK Tools
-    # - tools
-    # - platform-tools
+    - tools
+    - platform-tools
 
     # The BuildTools version used by your project
     - build-tools-26.0.2
@@ -27,11 +27,6 @@ android:
     # if you need to run emulator(s) during your tests
     - sys-img-x86-android-27
     - sys-img-armeabi-v7a-android-17
-    
-  licenses:
-    - 'android-sdk-preview-license-52d11cd2'
-    - 'android-sdk-license-.+'
-    - 'google-gdk-license-.+'
   
 # Emulator Management: Create, Start and Wait
 before_script:
