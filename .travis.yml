@@ -39,7 +39,7 @@ android:
 
 before_script:
   - android list targets
-  - echo no | android create avd --force -n test -t android-27 --abi google_apis/x86
+  - echo no | android create avd --force -n test -t android-27 --abi default/x86
   - android-sdk-linux/tools/emulator64-x86 -avd test -no-window -no-audio &
   #- emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
