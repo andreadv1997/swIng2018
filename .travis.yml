@@ -11,7 +11,7 @@ android:
     # use the latest revision of Android SDK Tools
     - platform-tools
     - tools # needs to be specified even with version below
-    -qemu-kvm
+    - qemu-kvm
 
     # The BuildTools version used by your project
     - build-tools-27.0.1
