@@ -2,8 +2,8 @@ language: java
 # language: android
 
 env:
-  - DIR=FlashMobClient
-  - DIR=server
+- DIR=FlashMobClient
+- DIR=server
 
 # android:
 # components:
