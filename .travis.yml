@@ -1,5 +1,7 @@
 language: java
 language: android
+sudo: false
+install: true
 
 env:
 - DIR=FlashMobClient
