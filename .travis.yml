@@ -11,7 +11,8 @@ android:
     # use the latest revision of Android SDK Tools
     - platform-tools
     - tools # needs to be specified even with version below
-    - qemu-kvm
+    - apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
+
 
     # The BuildTools version used by your project
     - build-tools-27.0.1
@@ -51,5 +52,5 @@ notifications:
     - andreadv1997@gmail.com
     - lauranardi26@gmail.com
     - mimmo.carapella@gmail.com
-  on_success: change
-  on_failure: always
+  on_success: never
+  on_failure: never
