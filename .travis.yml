@@ -37,7 +37,7 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
- - if $DIR==FlashMobClient;
+  - if $DIR==FlashMobClient;
        then cd $DIR && gradle build; #&& gradle jacocoTestReport; 
     else cd $DIR %% mvn install;
    fi
