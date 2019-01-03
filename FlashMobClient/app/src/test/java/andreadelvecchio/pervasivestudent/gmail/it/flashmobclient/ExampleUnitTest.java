@@ -2,6 +2,8 @@ package andreadelvecchio.pervasivestudent.gmail.it.flashmobclient;
 
 import org.junit.Test;
 
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,4 +16,13 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void creation_isCorrect() throws Exception {
+        FlashMob fm = new FlashMob("Nome", "Desc", new Date(), new Date());
+
+
+        assertEquals(fm.getName(), "Nome");
+    }
+
 }

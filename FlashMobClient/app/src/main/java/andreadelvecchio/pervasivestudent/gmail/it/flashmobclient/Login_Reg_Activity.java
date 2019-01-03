@@ -25,6 +25,8 @@ import java.io.IOException;
 
 public class Login_Reg_Activity extends AppCompatActivity {
 
+    private String baseUri = "http://192.168.2.117:8182/content/user";
+
     EditText username;
     EditText password;
     String user_pref;
@@ -72,7 +74,7 @@ public class Login_Reg_Activity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             ClientResource cr;
 
-            cr = new ClientResource("http://10.0.2.2:8182/content/user/registration");
+            cr = new ClientResource(baseUri + "/registration");
             String response=null;
             MyUser user = new MyUser(username.getText().toString(),password.getText().toString());
             String payload= new Gson().toJson(user,User.class);
@@ -118,7 +120,7 @@ public class Login_Reg_Activity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             ClientResource cr;
 
-            cr = new ClientResource("http://10.0.2.2:8182/content/user/authentication");
+            cr = new ClientResource(baseUri + "/authentication");
             String response=null;
             ChallengeScheme scheme = ChallengeScheme.HTTP_BASIC;
             ChallengeResponse authentication = new ChallengeResponse(scheme,
