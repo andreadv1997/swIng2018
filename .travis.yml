@@ -13,17 +13,11 @@ env:
     - ANDROID_TAG=google_apis
     - QEMU_AUDIO_DRV=none
 
-variables:
-  ANDROID_COMPILE_SDK: "27"
-  ANDROID_BUILD_TOOLS: "26.0.2"
-  ANDROID_SDK_TOOLS: "27"
-
-
 android:
   components:
     - tools
     - platform-tools
-    - tools
+    - tools #run again to install the most recent versions of tools
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
     - android-$ANDROID_API_LEVEL
     - android-$ANDROID_EMULATOR_LEVEL
