@@ -1,4 +1,5 @@
-anguage: java
+language: java
+language: android
 
 env:
 - DIR=FlashMobClient
@@ -31,6 +32,7 @@ android:
 
 
 before_script:
+  - android list targets
   - echo no | android create avd --force -n test -t android-26 --abi armeabi-v7a
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
