@@ -20,9 +20,9 @@ android:
 
 before_script:
   - android list targets
-  - echo no | android create avd --force -n test -t "android-28" --abi armeabi-v7a --tag google_apis
+  - echo no | android create avd --force -n test -t android-28 --abi armeabi-v7a --tag google_apis
   - emulator -avd test -no-window &
-  - mkdir -p build/reports
+# - mkdir -p build/reports
 # - ./gradlew dependencyCheckAnalyze
 # - ./gradlew assembleDebugAndroidTest -PdisablePreDex --continue --stacktrace
   - android-wait-for-emulator
