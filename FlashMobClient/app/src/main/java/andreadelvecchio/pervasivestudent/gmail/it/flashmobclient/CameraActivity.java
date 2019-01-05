@@ -147,6 +147,10 @@ public class CameraActivity extends AppCompatActivity {
         startActivityForResult(galleryApplicationIntent, ACTIVITY_START_GALLERY_APP);
     }
 
+    public void setmImageFileLocation(String path){
+        mImageFileLocation = path;
+    }
+
     public void takePhotAfterPermission() {
         Intent callCameraApplicationIntent = new Intent();
         callCameraApplicationIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
