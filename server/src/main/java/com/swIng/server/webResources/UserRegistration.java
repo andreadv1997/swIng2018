@@ -43,9 +43,9 @@ public class UserRegistration extends ServerResource{
 	System.err.println("L'utente si chiama :"+ user_registation);
 	
 	try {
-		
-	    	users = new Gson().fromJson(new FileReader("users.json"), MyUser[].class);
-	    
+		FileReader fr = new FileReader("users.json");
+	    users = new Gson().fromJson(fr, MyUser[].class);
+	    fr.close();
 		if(users!=null) {
 			if(!getMyUser(user_registation.getIdentifier())) {
 				realm.getUsers().add(user_registation);

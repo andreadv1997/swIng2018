@@ -31,7 +31,9 @@ public class FlashMobAuthorizationManagment extends ServerResource{
 	    
 		String username = this.getClientInfo().getUser().getIdentifier();
 		try {
-			users= new Gson().fromJson(new FileReader("users.json"), MyUser[].class);
+			FileReader fr = new FileReader("users.json");
+			users= new Gson().fromJson(fr, MyUser[].class);
+			fr.close();
 			ArrayList<String> fm_registered = users[getUserIndex(username)].getFlashMob();
 			String fm_Name = getAttribute("flashMobTitle");
 			if(getRegisteredFlashMob(fm_Name, fm_registered))	{

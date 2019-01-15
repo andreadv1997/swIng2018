@@ -48,7 +48,9 @@ public class FlashMobResourceForManagment extends ServerResource{
 		
 		
 	    try {
-	    		users= new Gson().fromJson(new FileReader("users.json"), MyUser[].class);
+	    	FileReader fr = new FileReader("users.json");
+	    	users= new Gson().fromJson(fr, MyUser[].class);
+	    	fr.close();
 			FileInputStream fileIn = new FileInputStream("flashMobs.db");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 	    		
