@@ -46,7 +46,7 @@ public class FlashMobListActivity extends AppCompatActivity {
     private FlashMob[] lista;
     private FlashMobListActivity thisActivity;
     private String baseUri = "http://192.168.2.117:8182/content/user";
-
+    //private String baseUri = "http://192.168.43.60:8182/content/user";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

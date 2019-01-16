@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.view.View;
@@ -19,8 +18,6 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,41 +28,31 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import androidx.test.InstrumentationRegistry;
-import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import static android.content.Context.MODE_PRIVATE;
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static java.lang.Thread.sleep;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.allOf;
 
-
-
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class Login_Reg_ActivityTest_Take_Picture_From_Camera {
+public class Login_Reg_ActivityTest_Take_Picture_From_Gallery {
 
 //    @Rule
 //    public ActivityTestRule<Login_Reg_Activity> mActivityTestRule = new ActivityTestRule<>(Login_Reg_Activity.class);
@@ -95,9 +82,9 @@ public class Login_Reg_ActivityTest_Take_Picture_From_Camera {
 
 
 
-        getInstrumentation().getUiAutomation().executeShellCommand(
-                "pm grant " + getApplicationContext().getPackageName()
-                        + " android.permission.WRITE_EXTERNAL_STORAGE");
+//        getInstrumentation().getUiAutomation().executeShellCommand(
+//                "pm grant " + getApplicationContext().getPackageName()
+//                        + " android.permission.WRITE_EXTERNAL_STORAGE");
     }
 
 
@@ -183,6 +170,8 @@ public class Login_Reg_ActivityTest_Take_Picture_From_Camera {
         intent.putExtra("FlashMobName", "FM_For_EspressoTest");
         intentsRule.launchActivity(intent);
 
+
+
         // Create a bitmap we can use for our simulated camera image
         Bitmap icon = BitmapFactory.decodeResource(
                 getInstrumentation().getTargetContext().getResources(),
@@ -191,23 +180,10 @@ public class Login_Reg_ActivityTest_Take_Picture_From_Camera {
 
         // Build a result to return from the Camera app
 
-        Intent resultData = new Intent();
-        resultData.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent resultData = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-        File photoFile = null;
-        try {
-            photoFile = intentsRule.getActivity().createImageFile();
-            FileOutputStream out = new FileOutputStream(photoFile);
-            icon.compress(Bitmap.CompressFormat.PNG, 100, out);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Uri outputUri = FileProvider.getUriForFile(
-                intentsRule.getActivity(),
-                BuildConfig.APPLICATION_ID + ".provider",
-                photoFile);
-        resultData.putExtra(MediaStore.EXTRA_OUTPUT, outputUri);
-        resultData.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
         resultData.putExtra("data", icon);
         Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
 
@@ -216,21 +192,21 @@ public class Login_Reg_ActivityTest_Take_Picture_From_Camera {
         // Stub out the Camera. When an intent is sent to the Camera, this tells Espresso to respond
         // with the ActivityResult we just created
         //intending(toPackage("com.android.camera2")).respondWith(result);
-        intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(result);
+        intending(hasAction(Intent.ACTION_PICK)).respondWith(result);
 
         ViewInteraction appCompatButton3 = onView(
-                allOf(withText("Scatta Foto"),
+                allOf(withText("Load From Gallery"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                2),
+                                1),
                         isDisplayed()));
         appCompatButton3.perform(click());
 
 
 
-        intentsRule.getActivity().setmImageFileLocation(photoFile.getAbsolutePath());
+
 
         onView(withId(R.id.butLoad)).check(matches(isEnabled()));
 
