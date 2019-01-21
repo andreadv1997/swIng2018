@@ -38,7 +38,7 @@ import java.util.Date;
 public class CameraActivity extends AppCompatActivity {
 
     private String baseURI = "http://192.168.2.117:8182/content/user/flashmob/";
-
+    //private String baseURI = "http://192.168.43.60:8182/content/user/flashmob/";
 
     private static final int ACTIVITY_START_CAMERA_APP = 0;
     private static final int ACTIVITY_START_GALLERY_APP = 1;
@@ -145,6 +145,10 @@ public class CameraActivity extends AppCompatActivity {
         galleryApplicationIntent.setDataAndType(data, "image/*");
 
         startActivityForResult(galleryApplicationIntent, ACTIVITY_START_GALLERY_APP);
+    }
+
+    public void setmImageFileLocation(String path){
+        mImageFileLocation = path;
     }
 
     public void takePhotAfterPermission() {

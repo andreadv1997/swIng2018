@@ -26,6 +26,7 @@ import java.io.IOException;
 public class Login_Reg_Activity extends AppCompatActivity {
 
     private String baseUri = "http://192.168.2.117:8182/content/user";
+    //private String baseUri = "http://192.168.43.60:8182/content/user";
 
     EditText username;
     EditText password;
