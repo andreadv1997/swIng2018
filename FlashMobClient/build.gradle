@@ -1,0 +1,107 @@
+apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = '0.8.0'
+}
+
+tasks.withType(Test) {
+    enabled true
+    jacoco.includeNoLocationClasses = true
+}
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "andreadelvecchio.pervasivestudent.gmail.it.flashmobclient"
+        minSdkVersion 23
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "org.robolectric.RobolectricTestRunner"
+    }
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+//    testOptions {
+//        execution 'ANDROID_TEST_ORCHESTRATOR'
+//        animationsDisabled true
+//
+//        unitTests {
+//            includeAndroidResources = true
+//        }
+//    }
+
+
+
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:design:27.1.0'
+    testImplementation 'junit:junit:4.12'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-intents:2.2'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+
+    //androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2-alpha1'
+    androidTestUtil 'com.android.support.test:orchestrator:1.0.2-alpha1'
+//    androidTestImplementation('com.android.support.test.espresso:espresso-intents:2.2') {
+//        // Necessary to avoid version conflicts
+//        exclude group: 'com.android.support', module: 'support-annotations'
+//    }
+    
+    androidTestImplementation 'androidx.test.ext:junit:' + rootProject.extJUnitVersion;
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:' + rootProject.espressoVersion;
+    androidTestImplementation 'androidx.test.ext:truth:' + rootProject.extTruthVersion;
+    androidTestImplementation 'androidx.test.ext:junit:' + rootProject.extJUnitVersion;
+
+
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+    compile group: 'org.restlet.jee', name: 'org.restlet', version: '2.3.2'
+    compile group: 'org.restlet.jee', name: 'org.restlet.ext.nio', version: '2.3.2'
+
+    //classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.6.0'
+
+
+}
+
+
+
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport', 'test', 'connectedAndroidTest']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "$project.projectDir/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir, includes: [
+            'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
+    ])
+}
