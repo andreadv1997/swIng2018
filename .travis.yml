@@ -9,7 +9,7 @@ matrix:
     - language: android
       android:
         components:
-          - tools
+          #- tools
           - android-27
           - build-tools-27.0.2
       before_script:
