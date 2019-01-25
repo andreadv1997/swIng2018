@@ -7,11 +7,12 @@ matrix:
         - mvn install
 
     - language: android
+      jdk: oraclejdk8
       android:
         components:
-          #- tools
-          - build-tools-28.0.2
-          - android-28
+          - tools
+          - build-tools-27.0.2
+          - android-27
           
       before_script:
         - cd FlashMobClient
