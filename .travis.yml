@@ -1,14 +1,15 @@
 language: java
-Language: android
 
 env:
 - DIR=FlashMobClient
 - DIR=server
 
 script:
- - if $DIR==FlashMobClient;
+ - if $DIR=="FlashMobClient";
        then cd $DIR && gradle build;
-    else cd $DIR %% mvn install;
+   fi
+ - if $DIR=="server";
+       then cd $DIR && mvn install;
    fi
 
 notifications:
