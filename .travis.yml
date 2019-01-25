@@ -1,9 +1,23 @@
-language: java
+matrix:
+  include:
+    - language: java
+      before_script:
+        - cd server
+      script:
+        - mvn install
 
-script:
- - cd FlashMobClient && ./gradlew build;
- - cd ..;
- - cd server && min install;
+    - language: android
+      android:
+        components:
+          - tools
+          - android-27
+          - build-tools-27.0.2
+      before_script:
+        - cd FlashMobClient
+      script:
+        - ./gradlew build 
+
+ 
 
 notifications:
   email:
