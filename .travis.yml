@@ -8,9 +8,8 @@ env:
 script:
  - if $DIR==FlashMobClient;
        then cd $DIR && gradle build;
-   fi 
     else cd $DIR && mvn install;
-   
+   fi
 
 notifications:
   email:
