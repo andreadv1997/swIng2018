@@ -3,7 +3,7 @@ language: java
 script:
  - cd FlashMobClient && gradle build;
  - cd ..;
- -cd server && min install;
+ - cd server && min install;
 
 notifications:
   email:
