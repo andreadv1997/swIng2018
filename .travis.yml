@@ -1,4 +1,5 @@
 language: java
+Language: android
 
 env:
 - DIR=FlashMobClient
@@ -6,9 +7,10 @@ env:
 
 script:
  - if $DIR==FlashMobClient;
-       then cd $DIR && gradle build; 
-    else cd $DIR %% mvn install;
-   fi
+       then cd $DIR && gradle build;
+   fi 
+    else cd $DIR && mvn install;
+   
 
 notifications:
   email:
