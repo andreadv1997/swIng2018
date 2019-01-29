@@ -114,5 +114,17 @@ public class UserRegistrationTest {
 		
 		assertEquals(8004, response.getStatus().getCode());
 	}
+	
+	@Test
+	public void testPut4() {
+		String url = "http://localhost:8182/content/user/registration";
+		Client client = new Client(Protocol.HTTP);
+		Request request = new Request(Method.PUT, url);
+		MyUser user = new MyUser("test1", "");
+		request.setEntity(gson.toJson(user, MyUser.class), MediaType.APPLICATION_ALL);
+		Response response = client.handle(request);
+		
+		assertEquals(8004, response.getStatus().getCode());
+	}
 
 }
