@@ -28,6 +28,7 @@ import com.swIng.server.commons.ExpiredFlashMobException;
 import com.swIng.server.commons.FlashMob;
 import com.swIng.server.commons.FutureFlashMobException;
 import com.swIng.server.commons.MyUser;
+import com.swIng.server.commons.PayloadNullException;
 import com.swIng.server.commons.UnregisteredUserException;
 
 public class FlashMobPictureStorageResource extends ServerResource {
@@ -47,6 +48,13 @@ public class FlashMobPictureStorageResource extends ServerResource {
 	public String upload(Representation entity) throws ResourceException {
 		if (!isInRole(MyWebApp.ROLE_USER))
 			throw new ResourceException(Status.CLIENT_ERROR_FORBIDDEN);
+
+		if (entity == null) {
+			Status status = new Status(ErrorCodes.NULL_PAYLOAD);
+			setStatus(status);
+			PayloadNullException e = new PayloadNullException("Null Payload");
+			return new Gson().toJson(e, PayloadNullException.class);
+		}
 
 		String username = this.getClientInfo().getUser().getIdentifier();
 		try {
@@ -113,8 +121,17 @@ public class FlashMobPictureStorageResource extends ServerResource {
 					+ getAttribute("flashMobTitle") + "/" + getAttribute("fname")));
 			entity.write(fr);
 			fr.close();
-		} catch (Exception e) {
-			throw new ResourceException(e);
+		} catch (NullPointerException e) {
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 		return "OK";
 	}

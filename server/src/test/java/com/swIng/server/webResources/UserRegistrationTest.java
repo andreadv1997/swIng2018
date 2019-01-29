@@ -16,8 +16,6 @@ import org.restlet.Client;
 import org.restlet.Component;
 import org.restlet.Request;
 import org.restlet.Response;
-import org.restlet.data.ChallengeResponse;
-import org.restlet.data.ChallengeScheme;
 import org.restlet.data.MediaType;
 import org.restlet.data.Method;
 import org.restlet.data.Protocol;
@@ -85,11 +83,9 @@ public class UserRegistrationTest {
 	public void testPut1() {
 		String url = "http://localhost:8182/content/user/registration";
 		Client client = new Client(Protocol.HTTP);
-		ChallengeResponse challengeResponse = new ChallengeResponse(ChallengeScheme.HTTP_BASIC, "admin", "admin");
 		Request request = new Request(Method.PUT, url);
 		MyUser user = new MyUser("test", "pass");
 		request.setEntity(gson.toJson(user, MyUser.class), MediaType.APPLICATION_ALL);
-		request.setChallengeResponse(challengeResponse);
 		Response response = client.handle(request);
 		
 		assertEquals("OK", gson.fromJson(response.getEntityAsText(), String.class));
@@ -99,14 +95,24 @@ public class UserRegistrationTest {
 	public void testPut2() {
 		String url = "http://localhost:8182/content/user/registration";
 		Client client = new Client(Protocol.HTTP);
-		ChallengeResponse challengeResponse = new ChallengeResponse(ChallengeScheme.HTTP_BASIC, "admin", "admin");
 		Request request = new Request(Method.PUT, url);
 		MyUser user = new MyUser("a", "a");
 		request.setEntity(gson.toJson(user, MyUser.class), MediaType.APPLICATION_ALL);
-		request.setChallengeResponse(challengeResponse);
 		Response response = client.handle(request);
 		
 		assertEquals(8000, response.getStatus().getCode());
+	}
+	
+	@Test
+	public void testPut3() {
+		String url = "http://localhost:8182/content/user/registration";
+		Client client = new Client(Protocol.HTTP);
+		Request request = new Request(Method.PUT, url);
+		MyUser user = new MyUser("", "pass");
+		request.setEntity(gson.toJson(user, MyUser.class), MediaType.APPLICATION_ALL);
+		Response response = client.handle(request);
+		
+		assertEquals(8004, response.getStatus().getCode());
 	}
 
 }
