@@ -1,14 +1,28 @@
-language: java
+os:
+  windows
 
-env:
-- DIR=FlashMobClient
-- DIR=server
+matrix:
+  include:
+    - language: java
+      before_script:
+        - cd server
+      script:
+        - mvn install
 
-script:
- - if $DIR==FlashMobClient;
-       then cd $DIR && gradle build; 
-    else cd $DIR %% mvn install;
-   fi
+    - language: android
+      jdk: oraclejdk8
+      android:
+        components:
+          - tools
+          - build-tools-27.0.3
+          - android-27
+          
+      before_script:
+        - cd FlashMobClient
+      script:
+        - ./gradlew build 
+
+ 
 
 notifications:
   email:
@@ -17,3 +31,6 @@ notifications:
     - mimmo.carapella@gmail.com
   on_success: change
   on_failure: always
+
+
+
