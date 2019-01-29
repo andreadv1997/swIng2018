@@ -56,17 +56,15 @@ public class FlashMobAuthorizationManagmentTest {
 		component.getDefaultHost().attach(new MyWebApp());
 
 		component.start();
+		
 		File dir = new File("temp");
 		dir.mkdir();
 		File admins = new File("admins.json");
 		File flashMobs = new File("flashMobs.db");
 		File users = new File("users.json");
-		//Files.copy(admins.toPath(), Paths.get("temp\\admins.json"), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(admins.toPath(), Paths.get("temp/admins.json"), StandardCopyOption.REPLACE_EXISTING);
-		//Files.copy(flashMobs.toPath(), Paths.get("temp\\FlashMobs.db"), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(flashMobs.toPath(), Paths.get("temp/FlashMobs.db"), StandardCopyOption.REPLACE_EXISTING);
-		//Files.copy(users.toPath(), Paths.get("temp\\users.json"), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(users.toPath(), Paths.get("temp/users.json"), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(admins.toPath(), Paths.get("temp\\admins.json"), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(flashMobs.toPath(), Paths.get("temp\\FlashMobs.db"), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(users.toPath(), Paths.get("temp\\users.json"), StandardCopyOption.REPLACE_EXISTING);
 		
 		String url = "http://localhost:8182/content/admin/flashmob";
 		Client client = new Client(Protocol.HTTP);
@@ -101,28 +99,33 @@ public class FlashMobAuthorizationManagmentTest {
 	public static void tearDownAfterClass() throws Exception {
 		component.stop();
 		
+		File dir = new File(MyWebApp.FLASH_MOB_ROUT + "/" + flashMob.getName());
+		dir.delete();
+		
+		dir = new File(MyWebApp.FLASH_MOB_ROUT + "/" + futureFlashMob.getName());
+		dir.delete();
+		
 		Files.delete(Paths.get("admins.json"));
 		Files.delete(Paths.get("users.json"));
 		Files.delete(Paths.get("flashMobs.db"));
 
-		//Files.copy(Paths.get("temp\\admins.json"), Paths.get("admins.json"), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(Paths.get("temp/admins.json"), Paths.get("admins.json"), StandardCopyOption.REPLACE_EXISTING);
-		//Files.copy(Paths.get("temp\\FlashMobs.db"), Paths.get("FlashMobs.db"), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(Paths.get("temp/FlashMobs.db"), Paths.get("FlashMobs.db"), StandardCopyOption.REPLACE_EXISTING);
-		//Files.copy(Paths.get("temp\\users.json"), Paths.get("users.json"), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(Paths.get("temp/users.json"), Paths.get("users.json"), StandardCopyOption.REPLACE_EXISTING);
-		
-		//Files.delete(Paths.get("temp\\admins.json"));
-		Files.delete(Paths.get("temp/admins.json"));
-		//Files.delete(Paths.get("temp\\users.json"));
-		Files.delete(Paths.get("temp/users.json"));
-		//Files.delete(Paths.get("temp\\flashMobs.db"));
-		Files.delete(Paths.get("temp/FlashMobs.db"));
-		//Files.delete(Paths.get("temp"));
+		Files.copy(Paths.get("temp\\admins.json"), Paths.get("admins.json"), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(Paths.get("temp\\FlashMobs.db"), Paths.get("FlashMobs.db"), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(Paths.get("temp\\users.json"), Paths.get("users.json"), StandardCopyOption.REPLACE_EXISTING);
+
+		Files.delete(Paths.get("temp\\admins.json"));
+		Files.delete(Paths.get("temp\\users.json"));
+		Files.delete(Paths.get("temp\\flashMobs.db"));
 		Files.delete(Paths.get("temp"));
 	}
 
-	
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
 
 	@Test
 	public void testGet1() {

@@ -64,13 +64,10 @@ public class FlashMobPictureStorageResourceTest {
 		File admins = new File("admins.json");
 		File flashMobs = new File("flashMobs.db");
 		File users = new File("users.json");
-//		Files.copy(admins.toPath(), Paths.get("temp\\admins.json"), StandardCopyOption.REPLACE_EXISTING);
-//		Files.copy(flashMobs.toPath(), Paths.get("temp\\FlashMobs.db"), StandardCopyOption.REPLACE_EXISTING);
-//		Files.copy(users.toPath(), Paths.get("temp\\users.json"), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(admins.toPath(), Paths.get("temp\\admins.json"), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(flashMobs.toPath(), Paths.get("temp\\FlashMobs.db"), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(users.toPath(), Paths.get("temp\\users.json"), StandardCopyOption.REPLACE_EXISTING);
 
-		Files.copy(admins.toPath(), Paths.get("temp/admins.json"), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(flashMobs.toPath(), Paths.get("temp/FlashMobs.db"), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(users.toPath(), Paths.get("temp/users.json"), StandardCopyOption.REPLACE_EXISTING);
 
 		String url = "http://localhost:8182/content/admin/flashmob";
 		Client client = new Client(Protocol.HTTP);
@@ -111,25 +108,23 @@ public class FlashMobPictureStorageResourceTest {
 		Files.delete(Paths.get("users.json"));
 		Files.delete(Paths.get("flashMobs.db"));
 
-//		Files.copy(Paths.get("temp\\admins.json"), Paths.get("admins.json"), StandardCopyOption.REPLACE_EXISTING);
-//		Files.copy(Paths.get("temp\\FlashMobs.db"), Paths.get("FlashMobs.db"), StandardCopyOption.REPLACE_EXISTING);
-//		Files.copy(Paths.get("temp\\users.json"), Paths.get("users.json"), StandardCopyOption.REPLACE_EXISTING);
-//
-//		Files.delete(Paths.get("temp\\admins.json"));
-//		Files.delete(Paths.get("temp\\users.json"));
-//		Files.delete(Paths.get("temp\\flashMobs.db"));
-		
-		Files.copy(Paths.get("temp/admins.json"), Paths.get("admins.json"), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(Paths.get("temp/FlashMobs.db"), Paths.get("flashMobs.db"), StandardCopyOption.REPLACE_EXISTING);
-		Files.copy(Paths.get("temp/users.json"), Paths.get("users.json"), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(Paths.get("temp\\admins.json"), Paths.get("admins.json"), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(Paths.get("temp\\FlashMobs.db"), Paths.get("FlashMobs.db"), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(Paths.get("temp\\users.json"), Paths.get("users.json"), StandardCopyOption.REPLACE_EXISTING);
 
-		Files.delete(Paths.get("temp/admins.json"));
-		Files.delete(Paths.get("temp/users.json"));
-		Files.delete(Paths.get("temp/FlashMobs.db"));
+		Files.delete(Paths.get("temp\\admins.json"));
+		Files.delete(Paths.get("temp\\users.json"));
+		Files.delete(Paths.get("temp\\flashMobs.db"));
 		Files.delete(Paths.get("temp"));
 	}
 
-	
+	@Before
+	public void setUp() throws Exception {
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
 
 	@Test
 	public void testGet() throws IOException {
@@ -182,7 +177,7 @@ public class FlashMobPictureStorageResourceTest {
 	}
 	
 	@Test
-	public void testPut4() throws IOException {		
+	public void testPut3() throws IOException {		
 		String url = "http://localhost:8182/content/user/flashmob/" + futureFlashMob.getName() + "/IMAGE_20181105_184704.jpg";
 		Client client = new Client(Protocol.HTTP);
 		ChallengeResponse challengeResponse = new ChallengeResponse(ChallengeScheme.HTTP_BASIC, "a", "a");
@@ -197,7 +192,7 @@ public class FlashMobPictureStorageResourceTest {
 	}
 	
 	@Test
-	public void testPut5() throws IOException {		
+	public void testPut4() throws IOException {		
 		String url = "http://localhost:8182/content/user/flashmob/FlashMob2/IMAGE_20181105_184704.jpg";
 		Client client = new Client(Protocol.HTTP);
 		ChallengeResponse challengeResponse = new ChallengeResponse(ChallengeScheme.HTTP_BASIC, "andrea", "pass1");
@@ -212,7 +207,7 @@ public class FlashMobPictureStorageResourceTest {
 	}
 
 	@Test
-	public void testPut6() throws IOException {
+	public void testPut5() throws IOException {
 		ClientResource cr;
         cr = new ClientResource("http://localhost:8182/content/user/flashmob/" + flashMob.getName());
         ChallengeScheme scheme = ChallengeScheme.HTTP_BASIC;
@@ -233,6 +228,20 @@ public class FlashMobPictureStorageResourceTest {
 		String resp = gson.fromJson(response.getEntityAsText(), String.class);
 
 		assertEquals("OK", resp);
+	}
+	
+	@Test
+	public void testPut6() throws IOException {
+			
+		String url = "http://localhost:8182/content/user/flashmob/" + flashMob.getName() + "/IMAGE_20181105_184704.jpg";
+		Client client = new Client(Protocol.HTTP);
+		ChallengeResponse challengeResponse = new ChallengeResponse(ChallengeScheme.HTTP_BASIC, "a", "a");
+		Request request = new Request(Method.PUT, url);
+		request.setEntity(null);
+		request.setChallengeResponse(challengeResponse);
+		Response response = client.handle(request);
+
+		assertEquals(8005, response.getStatus().getCode());
 	}
 
 }
