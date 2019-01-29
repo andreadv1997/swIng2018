@@ -18,6 +18,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.swIng.server.MyWebApp;
 import com.swIng.server.commons.AlreadyExistingException;
+import com.swIng.server.commons.EmptyCredentialsException;
 import com.swIng.server.commons.ErrorCodes;
 import com.swIng.server.commons.MyUser;
 
@@ -27,23 +28,31 @@ public class UserRegistration extends ServerResource {
 	@Put
 	public String registerUser(String payload) {
 
-		MyUser user_registation = new Gson().fromJson(payload, MyUser.class);
-		MemoryRealm realm = ((MyWebApp) getApplication()).getRealm();
-
-		System.err.println("L'utente si chiama :" + user_registation);
-
 		try {
-			FileReader fr =new FileReader("users.json");
+			MyUser user_registation = new Gson().fromJson(payload, MyUser.class);
+			MemoryRealm realm = ((MyWebApp) getApplication()).getRealm();
+
+			System.err.println("L'utente si chiama :" + user_registation);
+
+			FileReader fr = new FileReader("users.json");
 			users = new Gson().fromJson(fr, MyUser[].class);
 			fr.close();
 
 			if (users != null) {
 				if (!getMyUser(user_registation.getIdentifier())) {
-					realm.getUsers().add(user_registation);
-					realm.map(user_registation, Role.get(this.getApplication(), MyWebApp.ROLE_USER));
+					if (checkCredentials(user_registation)) {
+						realm.getUsers().add(user_registation);
+						realm.map(user_registation, Role.get(this.getApplication(), MyWebApp.ROLE_USER));
 
-					users = Arrays.copyOf(users, users.length + 1);
-					users[users.length - 1] = user_registation;
+						users = Arrays.copyOf(users, users.length + 1);
+						users[users.length - 1] = user_registation;
+					} else {
+						Status status = new Status(ErrorCodes.EMPTY_CREDENTIALS);
+						setStatus(status);
+						EmptyCredentialsException e = new EmptyCredentialsException("Empty Credentials");
+						return new Gson().toJson(e, EmptyCredentialsException.class);
+					}
+
 				} else {
 					Status status = new Status(ErrorCodes.USERNAME_ALREADY_EXISTING);
 					setStatus(status);
@@ -81,6 +90,10 @@ public class UserRegistration extends ServerResource {
 			System.err.println(e.getMessage());
 			System.err.println(e.getClass());
 			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+		} catch (NullPointerException e) {
+			System.err.println(e.getMessage());
+			System.err.println(e.getClass());
+			throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
 		}
 	}
 
@@ -90,6 +103,14 @@ public class UserRegistration extends ServerResource {
 			if (users[i].getIdentifier().equals(identifier))
 				return true;
 		}
+
+		return false;
+	}
+
+	private boolean checkCredentials(MyUser user) {
+
+		if (!(user.getIdentifier().length() == 0) && !(user.getSecret().length == 0))
+			return true;
 
 		return false;
 	}
