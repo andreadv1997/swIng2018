@@ -77,13 +77,7 @@ public class FlashMobListTest {
 		Files.delete(Paths.get("temp"));
 	}
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
+	
 
 	@Test
 	public void testGet1() {

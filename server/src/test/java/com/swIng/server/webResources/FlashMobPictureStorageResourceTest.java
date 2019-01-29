@@ -129,13 +129,7 @@ public class FlashMobPictureStorageResourceTest {
 		Files.delete(Paths.get("temp"));
 	}
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
+	
 
 	@Test
 	public void testGet() throws IOException {

@@ -84,12 +84,18 @@ public class Login_Reg_Activity extends AppCompatActivity {
                 response = cr.put(payload).getText();
                 if(cr.getStatus().getCode() == ErrorCodes.USERNAME_ALREADY_EXISTING)
                     throw new Gson().fromJson(response,AlreadyExistingException.class);
+
+                if(cr.getStatus().getCode() == ErrorCodes.EMPTY_CREDENTIALS)
+                    throw new Gson().fromJson(response,EmptyCredentialsException.class);
             } catch (ResourceException|IOException e) {
                 String text = "Error: " + cr.getStatus().getCode() + " - " + cr.getStatus().getDescription()+ " - " + cr.getStatus().getReasonPhrase();
                 //Toast.makeText(getApplicationContext(), text, Toast.LENGTH_LONG).show();
                 Log.e("Registration",text);
                 response = text;
             } catch(AlreadyExistingException e){
+                response = e.getMessage();
+                Log.e("Registration",response);
+            } catch (EmptyCredentialsException e){
                 response = e.getMessage();
                 Log.e("Registration",response);
             }
