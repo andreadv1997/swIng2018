@@ -21,6 +21,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import org.restlet.data.ChallengeResponse;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.data.MediaType;
@@ -34,6 +36,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -261,9 +265,14 @@ public class CameraActivity extends AppCompatActivity {
 
             try {
                 response = cr.put(payload).getText();
+                if(cr.getStatus().getCode() == ErrorCodes.NULL_PAYLOAD)
+                    throw new Gson().fromJson(response,PayloadNullException.class);
             } catch (ResourceException|IOException e) {
                 String text = "Error: " + cr.getStatus().getCode() + " - " + cr.getStatus().getDescription()+ " - " + cr.getStatus().getReasonPhrase();
                 Log.e("GERARDO_AUDIO",text);
+            } catch( PayloadNullException e){
+                response = e.getMessage();
+                Log.e("Registration",response);
             }
             return response;
         }
