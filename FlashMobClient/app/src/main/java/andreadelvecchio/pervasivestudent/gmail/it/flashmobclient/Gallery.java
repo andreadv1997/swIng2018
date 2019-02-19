@@ -44,7 +44,7 @@ import java.util.ListIterator;
 
 public class Gallery extends ListActivity {
 
-        private String baseUri = "http://192.168.2.117:8182/content/user";
+        private String baseUri = "http://10.0.2.2:8182/content/user";
         //private String baseUri = "http://192.168.43.60:8182/content/user";
 
         String[] picture_list;

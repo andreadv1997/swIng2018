@@ -27,7 +27,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Login_Reg_Activity extends AppCompatActivity {
 
-    private String baseUri = "http://192.168.2.117:8182/content/user";
+    private String baseUri = "http://10.0.2.2:8182/content/user";
     //private String baseUri = "http://192.168.43.60:8182/content/user";
 
     EditText username;
